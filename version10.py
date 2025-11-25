@@ -9,7 +9,7 @@ from config import (
     LIMITE_PRUEBA, CARPETA_LOGOS, URL_FCC_FM, URL_FCC_AM,
     URL_RADIO_BROWSER, HEADERS, REGEX_CALLSIGN, REGEX_ZIPCODE
 )
-  
+   
 # Scrapers
 from scrapers.fcc import parse_fcc_visual
 from scrapers.orb import scrape_orb_v10
