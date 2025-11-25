@@ -24,12 +24,25 @@ jobs:
 
     - name: 🚀 Deploy over SSH
       run: |
-        ssh ${{ secrets.USER_IP }} << 'EOF'
+        # Usamos -o StrictHostKeyChecking=no para evitar prompts interactivos si cambia la fingerprint
+        ssh -o StrictHostKeyChecking=no ${{ secrets.USER_IP }} << 'EOF'
+          # 1. Ir al directorio (asegúrate de que existe o créalo antes)
           cd ${{ secrets.WORK_DIR }}
-          git reset --hard
-          git pull origin master
-          # Activar entorno virtual
+
+          # 2. Actualizar código (CORREGIDO: master -> main)
+          git fetch origin main
+          git reset --hard origin/main
+
+          # 3. Configurar entorno virtual (usando python3 explícitamente)
+          if [ ! -d "venv" ]; then
+            python3 -m venv venv
+          fi
           source venv/bin/activate
+
+          # 4. Instalar dependencias
           pip install -r requirements.txt
+
+          # 5. Ejecutar el script
+          # Nota: Esto bloqueará el despliegue hasta que el script termine.
           python version10.py
         EOF

@@ -1,7 +1,7 @@
 import re
 
 # ================= CONFIGURACIÓN =================
-LIMITE_PRUEBA = 5 
+LIMITE_PRUEBA = 3 
 CARPETA_LOGOS = "logos_emisoras_final"
 
 # URLs
