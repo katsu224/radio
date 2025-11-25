@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 import re
 import time
-
+  
 # Importar Configuración
 from config import (
     LIMITE_PRUEBA, CARPETA_LOGOS, URL_FCC_FM, URL_FCC_AM,
