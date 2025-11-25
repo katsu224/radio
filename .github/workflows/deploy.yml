@@ -1,0 +1,33 @@
+name: 🚀 Deploy Backend Nodejs Express to VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to CloudPanel VPS
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v3
+
+    - name: 🔐 Setup SSH (ED25519)
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/known_hosts
+        echo -e "Host *\n  IdentityFile ~/.ssh/id_ed25519\n  IdentitiesOnly yes" > ~/.ssh/config
+
+    - name: 🚀 Deploy over SSH
+      run: |
+        ssh ${{ secrets.USER_IP }} << 'EOF'
+          cd ${{ secrets.WORK_DIR }}
+          git reset --hard
+          git pull origin master
+          pip install -r requirements.txt
+          python version10.py
+        EOF
